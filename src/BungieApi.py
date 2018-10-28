@@ -1,19 +1,28 @@
 # This class wraps all API calls we'll be playing with
 import requests
 import json
+import codecs
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 class BungieAPI:
-    url = 'https://www.bungie.net/Platform'
-    api_key = ''
+    base_url = 'https://www.bungie.net/Platform/Destiny2/'
+    xur_url = base_url + 'Destiny/Advisors/Xur'
+    api_key = os.environ['API_KEY']
+    headers = {'X-API-Key': api_key}
 
     def __init__(self):
         print("Initializing API")
 
-    def Authorize(self):
-        print("Attempting to authorize with bungie.net")
-        payload = {'some': 'data'}
-        headers = {'X-API-Key': self.api_key}
+    def Get_Characters(self, user_ID):
+        print("Checking for characters for ID: {0}".format(user_ID))
 
-        response = requests.get(self.url, headers = headers).json()
-        with open('json_response.json', encoding='utf-8', mode='w') as file:
-            file.write(json.dumps(response, indent=4, sort_keys=True))
+        response = requests.get(self.base_url + '4/Profile/{0}?components=Characters'.format(user_ID), headers=self.headers).json()
+
+        for character in response['Response']['characters']['data']:
+            print(character)
+
+        print(json.dumps(response, indent=4, sort_keys=True))
