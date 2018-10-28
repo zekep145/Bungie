@@ -1,7 +1,6 @@
 # This class wraps all API calls we'll be playing with
 import requests
 import json
-import codecs
 import os
 from dotenv import load_dotenv
 
@@ -17,10 +16,14 @@ class BungieAPI:
     def __init__(self):
         print("Initializing API")
 
-    def Get_Characters(self, user_ID):
-        print("Checking for characters for ID: {0}".format(user_ID))
+    def get_userid(self, user):
 
-        response = requests.get(self.base_url + '4/Profile/{0}?components=Characters'.format(user_ID), headers=self.headers).json()
+        print(user)
+
+    def get_characters(self, user_id):
+        print("Checking for characters for ID: {0}".format(user_id))
+
+        response = requests.get(self.base_url + '4/Profile/{0}?components=Characters'.format(user_id), headers=self.headers).json()
 
         for character in response['Response']['characters']['data']:
             print(character)

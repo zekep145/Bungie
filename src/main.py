@@ -7,7 +7,8 @@ def main():
     print("HEY")
 
     api = BungieAPI()
-    api.Get_Characters('4611686018468519685')
+    api.get_userid('user')
+    api.get_characters('4611686018468519685')
 
 
 if __name__ == '__main__':
